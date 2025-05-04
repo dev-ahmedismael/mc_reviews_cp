@@ -1,0 +1,71 @@
+<div>
+  <div class="text-center text-xl mb-10"><p>تسجيل الدخول</p></div>
+
+  <form
+    class="grid grid-cols-1 gap-5"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <div>
+      <p-floatlabel variant="on">
+        <input
+          pInputText
+          class="w-full"
+          pSize="large"
+          formControlName="email"
+        />
+        <label>البريد الإلكتروني</label>
+      </p-floatlabel>
+
+      @if(form.get('email')?.invalid && (form.get('email')?.touched)) {
+      <div class="text-error">
+        @if(form.get('email')?.hasError('required')){
+        <p>أدخل بريدك الإلكتروني.</p>
+        } @if(form.get('email')?.hasError('email')){
+        <p>أدخل بريد إلكتروني صالح.</p>
+        }
+      </div>
+      }
+    </div>
+
+    <div>
+      <p-floatlabel variant="on">
+        <p-password
+          size="large"
+          [toggleMask]="true"
+          promptLabel="أدخل كلمة المرور"
+          weakLabel="كلمة المرور ضعيفة"
+          mediumLabel="كلمة المرور متوسطة"
+          strongLabel="كلمة المرور قوية"
+          mediumRegex="^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})"
+          strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
+          fluid
+          [feedback]="false"
+          formControlName="password"
+        />
+        <label>كلمة المرور</label>
+      </p-floatlabel>
+
+      @if(form.get('password')?.invalid && (form.get('password')?.touched)) {
+      <div class="text-error">
+        @if(form.get('password')?.hasError('required')){
+        <p>أدخل كلمة المرور.</p>
+        } @if(form.get('password')?.hasError('minlength')){
+        <p>كلمة المرور يجب أن تتكون من 8 حروف على الأقل.</p>
+        }
+      </div>
+      }
+    </div>
+
+    <p-toast />
+    <p-button
+      dir="ltr"
+      label="تسجيل الدخول"
+      icon="pi pi-sign-in"
+      [loading]="loading"
+      [disabled]="form.invalid"
+      type="submit"
+      fluid
+    />
+  </form>
+</div>

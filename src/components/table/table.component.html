@@ -1,0 +1,115 @@
+<div class="p-5">
+  <p-confirmpopup />
+
+  <div class="flex justify-between pb-5">
+    <div class="flex gap-3">
+      <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="flex gap-3">
+        <input
+          pInputText
+          type="text"
+          placeholder="ابحث هنا..."
+          formControlName="search"
+        />
+        <p-button icon="pi pi-search" type="submit" />
+      </form>
+
+      @if (filteredResults) {
+      <p-button
+        icon="pi pi-search"
+        label="عرض كل النتائج"
+        [outlined]="true"
+        (click)="resetData()"
+      />
+      }
+    </div>
+    <a [routerLink]="createButton?.route">
+      <p-button [label]="createButton?.label" icon="pi pi-plus" />
+    </a>
+  </div>
+  <div class="w-full overflow-x-auto overflow-y-hidden rounded-lg">
+    <table class="table-auto w-full border border-gray-300">
+      <thead>
+        <tr class="bg-slate-200 text-black">
+          <th *ngFor="let col of cols" class="border p-3 text-center">
+            {{ col.header }}
+          </th>
+
+          <!-- Edit -->
+          <th class="border p-3 text-center">تعديل</th>
+
+          <!-- Delete -->
+          <th class="border p-3 text-center">حذف</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- If Loading -->
+        @if(loading) {
+        <tr *ngFor="let row of rows" class="hover:bg-gray-50">
+          <td *ngFor="let col of cols" class="border-b p-2">
+            <p-skeleton styleClass="w-full" height="2rem" />
+          </td>
+          <td class="border-b p-2">
+            <p-skeleton styleClass="w-full" height="2rem" />
+          </td>
+          <td class="border-b p-2">
+            <p-skeleton styleClass="w-full" height="2rem" />
+          </td>
+        </tr>
+        }
+
+        <!-- If !Loading && Rows Length > 0 -->
+        @if(!loading && rows.length > 0) {
+        <tr
+          *ngFor="let row of rows; let i = index"
+          [ngClass]="{
+            'bg-slate-100': i % 2 === 1,
+            'hover:bg-amber-50 cursor-pointer': true
+          }"
+        >
+          <td *ngFor="let col of cols" class="border-b p-1 text-center">
+            {{ row[col.key] }}
+          </td>
+          <td class="border-b p-1 2 text-center">
+            <a [routerLink]="'edit/' + row.id">
+              <p-button
+                icon="pi pi-pen-to-square"
+                [text]="true"
+                [rounded]="true"
+            /></a>
+          </td>
+          <td class="border-b p-1 2 text-center">
+            <p-button
+              icon="pi pi-trash"
+              [text]="true"
+              [rounded]="true"
+              severity="danger"
+              (click)="onDeleteConfirm(row.id, $event)"
+            />
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <!-- If !Loading && Rows Length == 0 -->
+    @if(!loading && rows.length === 0) {
+    <div
+      class="min-h-80 flex flex-col justify-center items-center gap-3 border"
+    >
+      <i class="pi pi-sparkles text-amber-200" style="font-size: 4rem"></i>
+      <p>لا توجد بيانات.</p>
+    </div>
+    }
+  </div>
+
+  @if (!loading && rows.length > 0 && !filteredResults) {
+  <div class="flex justify-end">
+    <p-paginator
+      (onPageChange)="onPageChange($event)"
+      [rowsPerPageOptions]="[10, 50, 100]"
+      [first]="first"
+      [rows]="pRows"
+      [totalRecords]="totalRecords"
+    />
+  </div>
+  }
+</div>

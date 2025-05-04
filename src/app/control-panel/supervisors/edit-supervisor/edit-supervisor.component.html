@@ -1,0 +1,48 @@
+<div>
+  <app-heading title="تعديل المشرف" path="supervisors"></app-heading>
+
+  <div class="p-5">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="grid grid-cols-1 gap-5"
+    >
+      <p-float-label variant="on">
+        <p-select
+          [options]="roles"
+          optionLabel="label"
+          optionValue="value"
+          formControlName="role"
+          styleClass="min-w-[300px]"
+          placeholder="اختر الرتبة"
+        />
+        <label> الرتبة</label>
+      </p-float-label>
+
+      <p-float-label variant="on">
+        <input pInputText formControlName="name" />
+        <label>اسم الموظف</label>
+      </p-float-label>
+
+      <p-float-label variant="on">
+        <input pInputText formControlName="email" />
+        <label> البريد الإلكتروني</label>
+      </p-float-label>
+
+      <p-float-label variant="on">
+        <input pInputText formControlName="password" type="password" />
+        <label>كلمة المرور</label>
+      </p-float-label>
+
+      <div>
+        <p-button
+          label="تعديل المشرف"
+          icon="pi pi-save"
+          type="submit"
+          [loading]="loading"
+          dir="ltr"
+        ></p-button>
+      </div>
+    </form>
+  </div>
+</div>

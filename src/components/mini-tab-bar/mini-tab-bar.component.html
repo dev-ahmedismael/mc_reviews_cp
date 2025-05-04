@@ -1,0 +1,17 @@
+<div class="pt-10 px-5">
+  <p-tabs [(value)]="currentRoute" class="w-full" scrollable>
+    <p-tablist>
+      @for (tab of tabs; track tab.route) {
+      <p-tab
+        [value]="tab.route"
+        [routerLink]="tab.route"
+        class="flex items-center gap-2 text-inherit bg-slate-50"
+      >
+        <i [class]="tab?.icon"></i>
+        <span>{{ tab.label }}</span>
+      </p-tab>
+      }
+    </p-tablist>
+  </p-tabs>
+  <router-outlet></router-outlet>
+</div>

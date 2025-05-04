@@ -1,0 +1,33 @@
+<nav class="relative z-50 shadow">
+  <!-- Large Screen View -->
+  <div class="hidden md:flex justify-between h-[60px]">
+    <!-- Organization -->
+    <div class="flex justify-center items-center px-5">
+      <img
+        ngSrc="/images/logo.avif"
+        alt="Logo"
+        width="60"
+        height="60"
+        priority
+      />
+    </div>
+
+    <div class="flex text-slate-700">
+      <!-- User -->
+      <div
+        class="flex items-center gap-4 px-4 h-[60px] cursor-pointer"
+        (click)="userMenu.toggle($event)"
+      >
+        <p>{{ user?.name }}</p>
+        <div class="flex">
+          <p-avatar [label]="user?.name?.charAt(0)" shape="circle" />
+          <div class="h-7 w-7 flex justify-center items-center rounded-full">
+            <i class="pi pi-angle-down"></i>
+          </div>
+        </div>
+      </div>
+      <p-menu #userMenu [model]="userMenuItems" [popup]="true"></p-menu>
+    </div>
+  </div>
+</nav>
+<p-toast />

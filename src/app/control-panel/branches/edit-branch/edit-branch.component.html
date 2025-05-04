@@ -1,0 +1,37 @@
+<section>
+  <app-heading title="تعديل بيانات الفرع" path="branches"></app-heading>
+
+  <div class="p-5">
+    <form
+      class="grid grid-cols-1 gap-5"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+      <p-float-label variant="on">
+        <input pInputText pSize="large" formControlName="name" />
+        <label>اسم الفرع</label>
+      </p-float-label>
+      <div>
+        <p-float-label variant="on">
+          <input pInputText pSize="large" formControlName="domain" />
+          <label>الرابط</label>
+        </p-float-label>
+        @if(form.get('domain')?.invalid && form.get('domain')?.touched){
+        <p class="text-error">
+          الرابط يجب أن يكون بحروف إنجليزية فقط بدون أرقام أو علامات خاصة.
+        </p>
+        }
+      </div>
+      <div>
+        <p-button
+          label="حفظ بيانات الفرع"
+          icon="pi pi-save"
+          type="submit"
+          [loading]="loading"
+          [disabled]="form.invalid"
+          dir="ltr"
+        />
+      </div>
+    </form>
+  </div>
+</section>

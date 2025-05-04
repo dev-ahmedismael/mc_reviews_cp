@@ -1,0 +1,86 @@
+<div>
+  <app-heading title="تعديل العرض" path="offers"></app-heading>
+
+  <div class="p-5">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="grid grid-cols-1 gap-5"
+    >
+      <p-float-label variant="on">
+        <p-select
+          [options]="categories"
+          optionLabel="title"
+          optionValue="id"
+          formControlName="category_id"
+          styleClass="min-w-[300px]"
+          placeholder="اختر القسم"
+        />
+        <label> القسم الطبي</label>
+      </p-float-label>
+
+      <p-float-label variant="on">
+        <input pInputText formControlName="title" />
+        <label>اسم العرض</label>
+      </p-float-label>
+
+      <div
+        class="card min-w-[300px] grid grid-cols-2 md:grid-cols-4 gap-7 pt-5"
+        *ngIf="images.length > 0"
+      >
+        @for (image of images; track image.id) {
+        <div class="relative rounded">
+          <div
+            class="absolute -top-5 left-0 cursor-pointer text-error"
+            (click)="deleteImage(image.id)"
+          >
+            <i class="pi pi-times"></i>
+          </div>
+          <img
+            [ngSrc]="image.url"
+            alt="offer"
+            width="400"
+            height="300"
+            class="w-full"
+          />
+        </div>
+        }
+      </div>
+
+      <div class="card w-[300px]">
+        <p-toast />
+        <p-fileupload
+          (onSelect)="onUpload($event)"
+          [multiple]="true"
+          accept="image/*"
+          maxFileSize="1000000"
+          mode="advanced"
+          chooseLabel="اختر الصور"
+          cancelLabel="إلغاء"
+          [showUploadButton]="false"
+        >
+          <ng-template #empty>
+            <div>اسحب وافلت الصور هنا.</div>
+          </ng-template>
+          <ng-template #content>
+            <ul *ngIf="uploadedFiles.length">
+              <li *ngFor="let file of uploadedFiles">
+                {{ file.name }} - {{ file.size }} bytes
+              </li>
+            </ul>
+          </ng-template>
+        </p-fileupload>
+      </div>
+
+      <div>
+        <p-button
+          label="تعديل العرض"
+          icon="pi pi-save"
+          type="submit"
+          [loading]="loading"
+          dir="ltr"
+        ></p-button>
+      </div>
+    </form>
+  </div>
+</div>

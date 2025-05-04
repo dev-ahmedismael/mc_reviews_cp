@@ -1,0 +1,63 @@
+<div>
+  <app-heading title="إضافة عرض جديد" path="offers"></app-heading>
+
+  <div class="p-5">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="grid grid-cols-1 gap-5"
+    >
+      <p-float-label variant="on">
+        <p-select
+          [options]="categories"
+          optionLabel="title"
+          optionValue="id"
+          formControlName="category_id"
+          styleClass="min-w-[300px]"
+          placeholder="اختر القسم"
+        />
+        <label> القسم الطبي</label>
+      </p-float-label>
+
+      <p-float-label variant="on">
+        <input pInputText formControlName="title" />
+        <label>اسم العرض</label>
+      </p-float-label>
+
+      <div class="card w-[300px]">
+        <p-toast />
+        <p-fileupload
+          (onSelect)="onUpload($event)"
+          [multiple]="true"
+          accept="image/*"
+          maxFileSize="1000000"
+          mode="advanced"
+          chooseLabel="اختر الصور"
+          cancelLabel="إلغاء"
+          [showUploadButton]="false"
+        >
+          <ng-template #empty>
+            <div>اسحب وافلت الصور هنا.</div>
+          </ng-template>
+          <ng-template #content>
+            <ul *ngIf="uploadedFiles.length">
+              <li *ngFor="let file of uploadedFiles">
+                {{ file.name }} - {{ file.size }} bytes
+              </li>
+            </ul>
+          </ng-template>
+        </p-fileupload>
+      </div>
+
+      <div>
+        <p-button
+          label="إضافة العرض"
+          icon="pi pi-save"
+          type="submit"
+          [loading]="loading"
+          dir="ltr"
+        ></p-button>
+      </div>
+    </form>
+  </div>
+</div>

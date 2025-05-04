@@ -1,0 +1,38 @@
+<div>
+  <app-heading title="إضافة خبر جديد" path="news"></app-heading>
+
+  <div class="p-5">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="grid grid-cols-1 gap-5"
+    >
+      <p-float-label variant="on">
+        <p-select
+          [options]="branches"
+          optionLabel="name"
+          optionValue="id"
+          formControlName="branch_id"
+          styleClass="min-w-[300px]"
+          placeholder="اختر الفرع"
+        />
+        <label> الفرع</label>
+      </p-float-label>
+
+      <p-float-label variant="on">
+        <textarea pTextarea rows="7" formControlName="post"></textarea>
+        <label>الخبر</label>
+      </p-float-label>
+
+      <div>
+        <p-button
+          label="إضافة الخبر"
+          icon="pi pi-save"
+          type="submit"
+          [loading]="loading"
+          dir="ltr"
+        ></p-button>
+      </div>
+    </form>
+  </div>
+</div>

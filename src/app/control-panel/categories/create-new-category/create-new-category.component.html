@@ -1,0 +1,27 @@
+<section>
+  <app-heading title="إضافة قسم جديد" path="categories"></app-heading>
+
+  <div class="p-5">
+    <form
+      class="grid grid-cols-1 gap-5"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+      <p-float-label variant="on">
+        <input pInputText pSize="large" formControlName="title" />
+        <label>اسم القسم</label>
+      </p-float-label>
+
+      <div>
+        <p-button
+          label="إضافة القسم"
+          icon="pi pi-save"
+          type="submit"
+          [loading]="loading"
+          [disabled]="form.invalid"
+          dir="ltr"
+        />
+      </div>
+    </form>
+  </div>
+</section>

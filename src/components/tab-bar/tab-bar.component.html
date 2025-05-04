@@ -1,0 +1,28 @@
+<div class="flex">
+  @if (category) {
+  <div
+    class="bg-slate-600 text-white px-5 flex justify-center items-center cursor-pointer"
+  >
+    <p>{{ category }}</p>
+  </div>
+  }
+  <p-tabs
+    [(value)]="currentRoute"
+    class="w-full"
+    scrollable
+    style="--p-tabs-tablist-background: #f8fafc"
+  >
+    <p-tablist>
+      @for (tab of tabs; track tab.route) {
+      <p-tab
+        [value]="tab.route"
+        [routerLink]="tab.route"
+        class="flex items-center gap-2 text-inherit bg-slate-50"
+      >
+        <i [class]="tab?.icon"></i>
+        <span>{{ tab.label }}</span>
+      </p-tab>
+      }
+    </p-tablist>
+  </p-tabs>
+</div>

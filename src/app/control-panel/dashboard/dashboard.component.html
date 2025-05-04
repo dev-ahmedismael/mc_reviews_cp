@@ -1,0 +1,36 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
+  <!-- Pie Chart: Review Distribution -->
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="text-xl font-semibold mb-4">توزيع التقييمات لهذا الشهر</h2>
+    <apx-chart
+      [series]="reviewDistributionChart.series"
+      [chart]="reviewDistributionChart.chart"
+      [labels]="reviewDistributionChart.labels"
+      [responsive]="reviewDistributionChart.responsive"
+    ></apx-chart>
+  </div>
+
+  <!-- Bar Chart: Rating Per Branch -->
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="text-xl font-semibold mb-4">متوسط التقييم لكل فرع (شهريًا)</h2>
+    <apx-chart
+      [series]="ratingPerBranchChart.series"
+      [chart]="ratingPerBranchChart.chart"
+      [xaxis]="ratingPerBranchChart.xaxis"
+      [yaxis]="ratingPerBranchChart.yaxis"
+    ></apx-chart>
+  </div>
+
+  <!-- Line Chart: Monthly Average Rating -->
+  <div class="bg-white shadow rounded p-4 col-span-1 md:col-span-2">
+    <h2 class="text-xl font-semibold mb-4">
+      تقييم شهري لجميع الفروع (السنة الحالية)
+    </h2>
+    <apx-chart
+      [series]="monthlyRatingChart.series"
+      [chart]="monthlyRatingChart.chart"
+      [xaxis]="monthlyRatingChart.xaxis"
+      [yaxis]="monthlyRatingChart.yaxis"
+    ></apx-chart>
+  </div>
+</div>

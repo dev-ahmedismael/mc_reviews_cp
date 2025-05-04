@@ -1,0 +1,102 @@
+<div>
+  <app-heading path="dashboard" title="تعديل بيانات الملف الشخصي"></app-heading>
+  <div class="p-5">
+    <div>
+      <p class="text-xl mb-7">البيانات الأساسية</p>
+      <form
+        [formGroup]="profileForm"
+        (ngSubmit)="onSubmit()"
+        class="grid grid-cols-1 gap-5"
+      >
+        <p-floatLabel variant="on">
+          <input
+            pInputText
+            id="name"
+            formControlName="name"
+            placeholder="الاسم"
+          />
+          <label for="name">الاسم</label>
+        </p-floatLabel>
+
+        <p-floatLabel variant="on">
+          <input
+            pInputText
+            id="email"
+            formControlName="email"
+            placeholder="البريد الإلكتروني"
+          />
+          <label for="email">البريد الإلكتروني</label>
+        </p-floatLabel>
+
+        <p-button
+          type="submit"
+          label="حفظ التعديلات"
+          icon="save"
+          [disabled]="profileForm.invalid"
+          class="mt-4"
+        ></p-button>
+      </form>
+    </div>
+
+    <div class="border-t mt-5 pt-5">
+      <p class="text-xl mb-7">تغيير كلمة المرور</p>
+
+      <form
+        [formGroup]="passwordForm"
+        (ngSubmit)="onPasswordChangeSubmit()"
+        class="grid grid-cols-1 gap-5"
+      >
+        <p-floatLabel variant="on">
+          <input
+            pInputText
+            id="current_password"
+            formControlName="current_password"
+            type="password"
+            placeholder="كلمة المرور الحالية"
+          />
+          <label for="current_password">كلمة المرور الحالية</label>
+        </p-floatLabel>
+
+        <p-floatLabel variant="on">
+          <input
+            pInputText
+            id="new_password"
+            formControlName="new_password"
+            placeholder="كلمة المرور الجديدة"
+            type="password"
+          />
+          <label for="new_password">كلمة المرور الجديدة</label>
+        </p-floatLabel>
+
+        <div>
+          <p-floatLabel variant="on">
+            <input
+              pInputText
+              id="password_confirm"
+              formControlName="password_confirm"
+              type="password"
+              placeholder="تأكيد كلمة المرور"
+            />
+            <label for="password_confirm">تأكيد كلمة المرور</label>
+          </p-floatLabel>
+
+          @if (passwordForm.get('password_confirm')?.invalid &&
+          passwordForm.get('password_confirm')?.touched) { @if
+          (passwordForm.get('password_confirm')?.hasError('password_mismatch'))
+          {
+          <p class="text-rose-500">كلمة المرور غير متطابقة</p>
+          }}
+        </div>
+
+        <div>
+          <p-button
+            type="submit"
+            label="تغيير كلمة المرور"
+            [disabled]="passwordForm.invalid"
+            class="mt-4"
+          ></p-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
