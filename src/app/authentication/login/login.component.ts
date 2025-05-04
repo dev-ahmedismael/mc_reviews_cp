@@ -64,7 +64,7 @@ export class LoginComponent {
               this.messageService.add({
                 severity: 'error',
                 summary: 'خطأ في تسجيل الدخول',
-                detail: err.error.message,
+                detail: err.error.message || '',
               });
             },
           });
