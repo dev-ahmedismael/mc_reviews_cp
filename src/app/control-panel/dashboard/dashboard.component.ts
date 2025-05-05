@@ -7,6 +7,7 @@ import { DailyReviewsByBranchComponent } from './daily-reviews-by-branch/daily-r
 import { DailyPerEmployeeComponent } from './daily-per-employee/daily-per-employee.component';
 import { AvgRatingPerBranchComponent } from './avg-rating-per-branch/avg-rating-per-branch.component';
 import { AvgRatingPerMonthComponent } from './avg-rating-per-month/avg-rating-per-month.component';
+import { EmployeeDataComponent } from './employee-data/employee-data.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +19,7 @@ import { AvgRatingPerMonthComponent } from './avg-rating-per-month/avg-rating-pe
     DailyPerEmployeeComponent,
     AvgRatingPerBranchComponent,
     AvgRatingPerMonthComponent,
+    EmployeeDataComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
