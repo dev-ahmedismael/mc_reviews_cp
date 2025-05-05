@@ -22,9 +22,10 @@
       />
       }
     </div>
-    <a [routerLink]="createButton?.route">
-      <p-button [label]="createButton?.label" icon="pi pi-plus" />
-    </a>
+    @if (createButton) {
+    <a [routerLink]="createButton.route">
+      <p-button [label]="createButton.label" icon="pi pi-plus" /> </a
+    >}
   </div>
   <div class="w-full overflow-x-auto overflow-y-hidden rounded-lg">
     <table class="table-auto w-full border border-gray-300">
@@ -35,10 +36,14 @@
           </th>
 
           <!-- Edit -->
+          @if (editable) {
           <th class="border p-3 text-center">تعديل</th>
+          }
 
           <!-- Delete -->
+          @if (deletable) {
           <th class="border p-3 text-center">حذف</th>
+          }
         </tr>
       </thead>
       <tbody>
@@ -48,12 +53,14 @@
           <td *ngFor="let col of cols" class="border-b p-2">
             <p-skeleton styleClass="w-full" height="2rem" />
           </td>
+          @if(editable && deletable) {
           <td class="border-b p-2">
             <p-skeleton styleClass="w-full" height="2rem" />
           </td>
           <td class="border-b p-2">
             <p-skeleton styleClass="w-full" height="2rem" />
           </td>
+          }
         </tr>
         }
 
@@ -67,8 +74,15 @@
           }"
         >
           <td *ngFor="let col of cols" class="border-b p-1 text-center">
-            {{ row[col.key] }}
+            <ng-container *ngIf="col.key !== 'created_at'; else dateTemplate">
+              {{ row[col.key] }}
+            </ng-container>
+            <ng-template #dateTemplate>
+              {{ row[col.key]?.slice(0, 10) }}
+            </ng-template>
           </td>
+
+          @if (editable) {
           <td class="border-b p-1 2 text-center">
             <a [routerLink]="'edit/' + row.id">
               <p-button
@@ -77,6 +91,7 @@
                 [rounded]="true"
             /></a>
           </td>
+          } @if (deletable) {
           <td class="border-b p-1 2 text-center">
             <p-button
               icon="pi pi-trash"
@@ -86,6 +101,7 @@
               (click)="onDeleteConfirm(row.id, $event)"
             />
           </td>
+          }
         </tr>
         }
       </tbody>

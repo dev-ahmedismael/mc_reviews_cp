@@ -44,6 +44,8 @@ export interface CreateButton {
   styleUrl: './table.component.scss',
 })
 export class TableComponent implements OnInit {
+  @Input() editable: boolean = true;
+  @Input() deletable: boolean = true;
   @Input() cols: Col[] | undefined = undefined;
   rows: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   @Input() path: string = '';
@@ -80,7 +82,7 @@ export class TableComponent implements OnInit {
     this.filteredResults = false;
   }
 
-  getData(per_page: number = 10, page: string | number = '') {
+  getData(per_page: number = 10, page: string | number = 1) {
     let search = this.filteredResults
       ? this.searchForm.get('search')?.value
       : '';
@@ -89,27 +91,32 @@ export class TableComponent implements OnInit {
       next: (res: any) => {
         this.loading = false;
         this.rows = res.data;
-        this.totalRecords = res.total;
-        this.pRows = res.per_page;
+        this.totalRecords = res.meta?.total ?? res.total;
+        this.pRows = res.meta?.per_page ?? per_page;
+        this.currentPage = page as number;
+        this.first = (this.currentPage - 1) * this.pRows;
       },
       error: (err: HttpErrorResponse) => {
-        if (typeof window !== 'undefined') {
-          this.loading = false;
-          this.messageService.add({
-            severity: 'error',
-            summary: 'خطأ في الإتصال',
-            detail: err.error.message,
-          });
-        }
+        this.loading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'خطأ في الإتصال',
+          detail: err.error.message,
+        });
       },
     });
   }
 
   onPageChange(event: PaginatorState) {
     this.loading = true;
-    this.first = event.first || 0;
-    this.currentPage = event.page || 0 + 1;
-    this.getData(event.rows, event.page || 0 + 1);
+
+    const newPage = (event.page ?? 0) + 1;
+    const perPage = event.rows;
+
+    this.first = event.first ?? 0;
+    this.currentPage = newPage;
+
+    this.getData(perPage, newPage);
   }
 
   onDeleteConfirm(id: string, event: MouseEvent) {
@@ -148,6 +155,8 @@ export class TableComponent implements OnInit {
           .subscribe((res: any) => {
             if (res.data.length === 0 && this.currentPage > 1) {
               this.currentPage--;
+              this.first = (this.currentPage - 1) * this.pRows;
+
               this.apiService
                 .index(this.path, this.pRows, search, this.currentPage)
                 .subscribe((prevRes: any) => {
@@ -157,6 +166,7 @@ export class TableComponent implements OnInit {
             } else {
               this.rows = res.data;
               this.totalRecords = res.total;
+              this.first = (this.currentPage - 1) * this.pRows;
             }
           });
       },
