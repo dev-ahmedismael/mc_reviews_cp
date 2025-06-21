@@ -29,6 +29,15 @@
         <label>كود الموظف</label>
       </p-float-label>
 
+      <div class="flex items-center gap-2">
+        <p-checkbox
+          inputId="is_active"
+          formControlName="is_active"
+          binary="true"
+        ></p-checkbox>
+        <label for="is_active">الموظف مفعل</label>
+      </div>
+
       <div>
         <p-button
           label="تعديل الموظف"

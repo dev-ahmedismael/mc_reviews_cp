@@ -16,6 +16,7 @@ export class EmployeesComponent {
     { key: 'branch', header: 'الفرع' },
     { key: 'name', header: 'اسم الموظف' },
     { key: 'code', header: 'كود الموظف' },
+    { key: 'is_active', header: 'الحالة' },
   ];
 
   createButton: CreateButton = {

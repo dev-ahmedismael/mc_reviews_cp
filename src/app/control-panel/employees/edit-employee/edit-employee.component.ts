@@ -15,6 +15,8 @@ import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { ActivatedRoute } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
+import { CheckboxModule } from 'primeng/checkbox';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-employee',
@@ -26,6 +28,8 @@ import { InputTextModule } from 'primeng/inputtext';
     ButtonModule,
     SelectModule,
     InputTextModule,
+    CheckboxModule,
+    CommonModule,
   ],
   templateUrl: './edit-employee.component.html',
   styleUrl: './edit-employee.component.scss',
@@ -45,6 +49,7 @@ export class EditEmployeeComponent implements OnInit {
       branch_id: ['', Validators.required],
       name: ['', Validators.required],
       code: ['', Validators.required],
+      is_active: [false],
     });
   }
 
@@ -80,7 +85,10 @@ export class EditEmployeeComponent implements OnInit {
     let id = this.route.snapshot.paramMap.get('id');
     this.apiService.index(`employees/${id}`).subscribe({
       next: (res: any) => {
-        this.form.patchValue(res.data);
+        this.form.patchValue({
+          ...res.data,
+          is_active: res.data.is_active === 1 || res.data.is_active === true,
+        });
       },
     });
   }
