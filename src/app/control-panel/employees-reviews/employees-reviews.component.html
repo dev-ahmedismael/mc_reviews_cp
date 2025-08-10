@@ -1,0 +1,9 @@
+<div class="p-10">
+  @if (tabs) {
+  <app-tab-bar [tabs]="tabs"></app-tab-bar>
+  <router-outlet></router-outlet>
+
+  }@else if(!isLoading && !tabs) {
+  <p class="text-center">عفواً لم يتم العثور على موظفين.</p>
+  }
+</div>

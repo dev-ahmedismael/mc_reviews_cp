@@ -16,7 +16,13 @@ export class ControlPanelComponent {
     { icon: 'pi pi-volume-up', label: 'الأخبار', route: 'news' },
     { icon: 'pi pi-sitemap', label: 'الأقسام الطبية', route: 'categories' },
     { icon: 'pi pi-tags', label: 'العروض', route: 'offers' },
+    { icon: 'pi pi-briefcase', label: 'الوظائف', route: 'positions' },
     { icon: 'pi pi-address-book', label: 'الموظفين', route: 'employees' },
     { icon: 'pi pi-users', label: 'المشرفين', route: 'supervisors' },
+    {
+      icon: 'pi pi-star',
+      label: 'تقييمات الموظفين',
+      route: 'employee-reviews',
+    },
   ];
 }

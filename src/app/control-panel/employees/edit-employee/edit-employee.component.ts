@@ -38,6 +38,7 @@ export class EditEmployeeComponent implements OnInit {
   form!: FormGroup;
   loading: boolean = false;
   branches = [];
+  positions = [];
 
   constructor(
     private fb: FormBuilder,
@@ -50,6 +51,7 @@ export class EditEmployeeComponent implements OnInit {
       name: ['', Validators.required],
       code: ['', Validators.required],
       is_active: [false],
+      position_id: ['', Validators.required],
     });
   }
 
@@ -79,6 +81,12 @@ export class EditEmployeeComponent implements OnInit {
     this.apiService.index('branches').subscribe({
       next: (res: any) => {
         this.branches = res.data;
+      },
+    });
+
+    this.apiService.index('positions/all').subscribe({
+      next: (res: any) => {
+        this.positions = res.data;
       },
     });
 

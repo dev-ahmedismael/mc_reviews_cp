@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ApiService } from '../../../services/api.service';
-import { CommentsTableComponent } from './comments-table/comments-table.component';
 import { ReviewDistributionComponent } from './review-distribution/review-distribution.component';
 import { DailyReviewsByBranchComponent } from './daily-reviews-by-branch/daily-reviews-by-branch.component';
 import { DailyPerEmployeeComponent } from './daily-per-employee/daily-per-employee.component';
@@ -13,7 +12,6 @@ import { EmployeeDataComponent } from './employee-data/employee-data.component';
   selector: 'app-dashboard',
   imports: [
     NgApexchartsModule,
-    CommentsTableComponent,
     ReviewDistributionComponent,
     DailyReviewsByBranchComponent,
     DailyPerEmployeeComponent,

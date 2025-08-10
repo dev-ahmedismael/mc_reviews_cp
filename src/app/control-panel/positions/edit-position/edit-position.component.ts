@@ -1,56 +1,52 @@
 import { Component, OnInit } from '@angular/core';
 import { HeadingComponent } from '../../../../components/heading/heading.component';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ApiService } from '../../../../services/api.service';
 import { MessageService } from 'primeng/api';
-import { HttpErrorResponse } from '@angular/common/http';
-import { TextareaModule } from 'primeng/textarea';
-import { FloatLabel } from 'primeng/floatlabel';
-import { ButtonModule } from 'primeng/button';
-import { SelectModule } from 'primeng/select';
-import { InputTextModule } from 'primeng/inputtext';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-create-new-employee',
+  selector: 'app-edit-branch',
   imports: [
     HeadingComponent,
-    ReactiveFormsModule,
-    TextareaModule,
-    FloatLabel,
     ButtonModule,
-    SelectModule,
     InputTextModule,
+    FloatLabelModule,
+    ReactiveFormsModule,
   ],
-  templateUrl: './create-new-employee.component.html',
-  styleUrl: './create-new-employee.component.scss',
+  templateUrl: './edit-position.component.html',
+  styleUrl: './edit-position.component.scss',
+  standalone: true,
 })
-export class CreateNewEmployeeComponent {
+export class EditPositionComponent implements OnInit {
   form!: FormGroup;
   loading: boolean = false;
-  branches = [];
-  positions = [];
+  id: string = '';
 
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private route: ActivatedRoute
   ) {
     this.form = this.fb.group({
-      branch_id: ['', Validators.required],
-      position_id: ['', Validators.required],
       name: ['', Validators.required],
-      code: ['', Validators.required],
     });
   }
 
   onSubmit() {
     this.loading = true;
-    this.apiService.store('employees', this.form.value).subscribe({
+
+    this.apiService.update('positions', this.id, this.form.value).subscribe({
       next: (res: any) => {
         this.loading = false;
 
@@ -68,14 +64,11 @@ export class CreateNewEmployeeComponent {
   }
 
   ngOnInit(): void {
-    this.apiService.index('branches').subscribe({
+    let id = this.route.snapshot.paramMap.get('id');
+    this.id = id?.toString() || '';
+    this.apiService.index(`positions/${id}`).subscribe({
       next: (res: any) => {
-        this.branches = res.data;
-      },
-    });
-    this.apiService.index('positions/all').subscribe({
-      next: (res: any) => {
-        this.positions = res.data;
+        this.form.patchValue(res.data);
       },
     });
   }

@@ -1,0 +1,11 @@
+@if (path) {
+<div class="flex justify-end pt-5">
+  <p-button label="تحميل كملف Excel" (click)="download()"></p-button>
+</div>
+<app-table
+  [editable]="false"
+  [deletable]="false"
+  [path]="path"
+  [cols]="cols"
+></app-table>
+}

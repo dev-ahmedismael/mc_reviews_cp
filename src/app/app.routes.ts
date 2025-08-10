@@ -144,6 +144,37 @@ export const routes: Routes = [
           },
         ],
       },
+      // Positions
+      {
+        path: 'positions',
+        title: 'الوظائف',
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            loadComponent: () =>
+              import('./control-panel/positions/positions.component').then(
+                (m) => m.PositionsComponent
+              ),
+          },
+          {
+            path: 'create-new-position',
+            title: 'إضافة وظيفة جديدة',
+            loadComponent: () =>
+              import(
+                './control-panel/positions/create-new-position/create-new-position.component'
+              ).then((m) => m.CreateNewPositionComponent),
+          },
+          {
+            path: 'edit/:id',
+            title: 'تعديل الوظيفة',
+            loadComponent: () =>
+              import(
+                './control-panel/positions/edit-position/edit-position.component'
+              ).then((m) => m.EditPositionComponent),
+          },
+        ],
+      },
       // Employees
       {
         path: 'employees',
@@ -203,6 +234,24 @@ export const routes: Routes = [
               import(
                 './control-panel/supervisors/edit-supervisor/edit-supervisor.component'
               ).then((m) => m.EditSupervisorComponent),
+          },
+        ],
+      },
+      // Employees Reviews
+      {
+        path: 'employee-reviews',
+        title: 'تقييمات الموظفين',
+        loadComponent: () =>
+          import(
+            './control-panel/employees-reviews/employees-reviews.component'
+          ).then((m) => m.EmployeesReviewsComponent),
+        children: [
+          {
+            path: ':id',
+            loadComponent: () =>
+              import(
+                './control-panel/employees-reviews/reviews-table/reviews-table.component'
+              ).then((m) => m.ReviewsTableComponent),
           },
         ],
       },

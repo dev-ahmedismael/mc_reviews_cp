@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -43,7 +49,7 @@ export interface CreateButton {
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
   @Input() editable: boolean = true;
   @Input() deletable: boolean = true;
   @Input() cols: Col[] | undefined = undefined;
@@ -80,6 +86,12 @@ export class TableComponent implements OnInit {
     this.searchForm.patchValue({ search: '' });
     this.getData();
     this.filteredResults = false;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['path'] && changes['path'].currentValue) {
+      this.resetData();
+    }
   }
 
   getData(per_page: number = 10, page: string | number = 1) {

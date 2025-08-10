@@ -20,6 +20,17 @@
       </p-float-label>
 
       <p-float-label variant="on">
+        <p-select
+          [options]="positions"
+          optionLabel="name"
+          optionValue="id"
+          formControlName="position_id"
+          styleClass="min-w-[300px]"
+        />
+        <label> الوظيفة</label>
+      </p-float-label>
+
+      <p-float-label variant="on">
         <input pInputText formControlName="name" />
         <label>اسم الموظف</label>
       </p-float-label>
