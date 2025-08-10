@@ -48,27 +48,32 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    if (this.form.invalid) {
+      return;
+    }
+
     this.loading = true;
 
-    this.cookieService.getCSRFCookie().subscribe({
-      next: () => {
-        this.apiService
-          .store<LoginRequest, LoginResponse>('login', this.form.value)
-          .subscribe({
-            next: (res) => {
-              this.router.navigateByUrl(`/`);
-            },
-            error: (err: HttpErrorResponse) => {
-              this.loading = false;
-
-              this.messageService.add({
-                severity: 'error',
-                summary: 'خطأ في تسجيل الدخول',
-                detail: err.error.message || '',
-              });
-            },
+    this.apiService
+      .store<LoginRequest, LoginResponse>('login', this.form.value)
+      .subscribe({
+        next: (res: LoginResponse) => {
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('auth_token', res.token);
+          }
+          this.router.navigateByUrl(`/`);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'خطأ في تسجيل الدخول',
+            detail: err.error.message || 'حدث خطأ غير متوقع',
           });
-      },
-    });
+        },
+        complete: () => {
+          this.loading = false;
+        },
+      });
   }
 }

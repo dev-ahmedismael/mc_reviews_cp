@@ -40,13 +40,4 @@ export class ApiService {
       body: data,
     });
   }
-
-  isAuthenticated(): Observable<boolean> {
-    return this.http
-      .get(`${this.apiUrl}/authenticated-user`, { withCredentials: true })
-      .pipe(
-        map(() => true),
-        catchError(() => of(false))
-      );
-  }
 }

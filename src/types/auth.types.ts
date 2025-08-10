@@ -7,6 +7,7 @@ export interface LoginResponse {
   message: string;
   domain: string;
   tenant_id: string;
+  token: string;
 }
 
 export interface RegisterRequest {

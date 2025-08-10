@@ -7,31 +7,40 @@ import {
 } from '@angular/common/http';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { Observable, tap } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
-  const cookieService = inject(CookieService);
-  const router = inject(Router);
-  const csrfToken = cookieService.get('XSRF-TOKEN');
+  const platformId = inject(PLATFORM_ID);
+
+  // Only try to access localStorage in the browser
+  let token: string | null = null;
+  if (isPlatformBrowser(platformId)) {
+    token = localStorage.getItem('auth_token'); // or sessionStorage
+  }
 
   let headers = req.headers;
+  if (token) {
+    headers = headers.set('Authorization', `Bearer ${token}`);
+  }
 
-  if (csrfToken) headers = headers.set('X-XSRF-TOKEN', csrfToken);
+  const authReq = req.clone({ headers });
 
-  const authReq = req.clone({ headers, withCredentials: true });
-
-  if (typeof window === 'undefined') {
+  // Skip navigation/error handling during SSR
+  if (!isPlatformBrowser(platformId)) {
     return next(authReq);
   }
+
+  const router = inject(Router);
 
   return next(authReq).pipe(
     tap({
       error: (err) => {
-        if (err.status === 401) {
+        if (err?.status === 401) {
+          // Optionally remove the token if it's invalid
+          localStorage.removeItem('auth_token');
           router.navigate(['/authentication/login']);
         }
       },
